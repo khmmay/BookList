@@ -184,22 +184,32 @@ public final class QueryUtils {
                 String sAuthor="";
                 JSONArray authors = volumeInfo.getJSONArray("authors");
                 for (int j=0;j<authors.length();j++){
-                    sAuthor.concat(authors.getString(j)+" ,");
+                    sAuthor=sAuthor.concat(authors.getString(j)).concat(" ,");
                 }
-                sAuthor=sAuthor.substring(0,sAuthor.length()-2);
+                String sAuthors=sAuthor.substring(0,sAuthor.length()-2);
 
                 JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
                 String imageURI = imageLinks.getString("thumbnail");
+                String url="";
+                String price="";
 
-                JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
-                String price = retailPrice.getString("amount").concat(retailPrice.getString("currencyCode"));
+                try{
+                    JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
+                    price = retailPrice.getString("amount").concat(retailPrice.getString("currencyCode"));
 
-                // Extract the value for the key called "url"
-                String url = saleInfo.getString("buyLink");
+                    // Extract the value for the key called "url"
+                    url = saleInfo.getString("buyLink");
+                }
+                catch (JSONException e){
+                    Log.e("QueryUtils", "No price for this book", e);
+                    price = "n/a";
+                    url = "";
+                }
+
 
                 // Create a new {@link book} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Book newBook = new Book(title, sAuthor, imageURI, price, url);
+                Book newBook = new Book(title, sAuthors, imageURI, price, url);
 
                 books.add(newBook);
             }
