@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -41,7 +43,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         TextView authorView = (TextView) listItemView.findViewById(R.id.author);
         authorView.setText(currentBook.getAuthor());
         ImageView coverView = (ImageView) listItemView.findViewById(R.id.cover);
-        URL url = null;
+        /*URL url = null;
         try {
             url = new URL(currentBook.getImageURI());
         } catch (MalformedURLException e) {
@@ -54,7 +56,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
             e.printStackTrace();
         }
         Drawable d = Drawable.createFromStream(content , "src");
-        coverView.setImageDrawable(d);
+        coverView.setImageDrawable(d);*/
+        Picasso.with(getContext()).load(currentBook.getImageURI()).into(coverView);
         TextView priceView=(TextView) listItemView.findViewById(R.id.prize);
         priceView.setText(currentBook.getPrice());
 

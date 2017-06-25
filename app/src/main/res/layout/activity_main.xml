@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.may.android.booklist.MainActivity">
 
+    <TextInput
+
     <ListView
         android:id="@+id/list"
         android:orientation="vertical"
