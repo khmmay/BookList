@@ -53,6 +53,7 @@ public final class QueryUtils {
      * Query the USGS dataset and return a list of {@link Book} objects.
      */
     public static List<Book> fetchbookData(String requestUrl) {
+        Log.i("wtf","TEST: fetchbookData is called");
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -182,17 +183,27 @@ public final class QueryUtils {
                 String title = volumeInfo.getString("title");
 
                 String sAuthor="";
-                JSONArray authors = volumeInfo.getJSONArray("authors");
-                for (int j=0;j<authors.length();j++){
-                    sAuthor=sAuthor.concat(authors.getString(j)).concat(" ,");
+                String sAuthors;
+                try {
+                    JSONArray authors = volumeInfo.getJSONArray("authors");
+                    for (int j=0;j<authors.length();j++){
+                        sAuthor=sAuthor.concat(authors.getString(j)).concat(", ");
+                    }
+                    sAuthors = sAuthor.substring(0,sAuthor.length()-2);
+                } catch (JSONException e) {
+                    sAuthors="No authors available";
                 }
-                String sAuthors=sAuthor.substring(0,sAuthor.length()-2);
 
-                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                String imageURI = imageLinks.getString("thumbnail");
-                String url="";
-                String price="";
+                String imageURI;
+                try {
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    imageURI = imageLinks.getString("thumbnail");
+                } catch (JSONException e) {
+                    imageURI=null;
+                }
 
+                String url;
+                String price;
                 try{
                     JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
                     price = retailPrice.getString("amount").concat(retailPrice.getString("currencyCode"));
@@ -203,7 +214,7 @@ public final class QueryUtils {
                 catch (JSONException e){
                     Log.e("QueryUtils", "No price for this book", e);
                     price = "n/a";
-                    url = "";
+                    url = null;
                 }
 
 

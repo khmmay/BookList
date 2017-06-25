@@ -1,7 +1,6 @@
 package com.may.android.booklist;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -57,7 +52,12 @@ public class BookAdapter extends ArrayAdapter<Book> {
         }
         Drawable d = Drawable.createFromStream(content , "src");
         coverView.setImageDrawable(d);*/
-        Picasso.with(getContext()).load(currentBook.getImageURI()).into(coverView);
+        if (!(currentBook.getImageURI()==null)){
+            Picasso.with(getContext()).load(currentBook.getImageURI()).into(coverView);
+        }
+        else {
+            coverView.setImageResource(R.drawable.no_image);
+        }
         TextView priceView=(TextView) listItemView.findViewById(R.id.prize);
         priceView.setText(currentBook.getPrice());
 

@@ -6,9 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.may.android.booklist.MainActivity">
 
-    <TextInput
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/seachView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/search_hight"
+            android:text="@string/sample_search"
+            android:layout_weight="3"/>
+        <TextView
+            android:id="@+id/reload"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/search_hight"
+            android:text="Reload"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
 
     <ListView
+        android:layout_below="@+id/ll"
         android:id="@+id/list"
         android:orientation="vertical"
         android:layout_width="match_parent"
